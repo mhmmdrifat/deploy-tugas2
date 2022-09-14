@@ -1,10 +1,12 @@
-# Template Proyek Django PBP
+# Link HerokuApp
 
-Pemrograman Berbasis Platform (CSGE602022) - diselenggarakan oleh Fakultas Ilmu Komputer Universitas Indonesia, Semester Ganjil 2022/2023
+https://patkatalog.herokuapp.com/katalog/
 
 *Read this in other languages: [Indonesian](README.md), [English](README.en.md)*
 
-## Pendahuluan
+## Bagan Request Client
+![image](https://user-images.githubusercontent.com/112569220/190210075-4198ca22-dee4-4ab0-9550-7fb948599125.png)
+
 
 Repositori ini merupakan sebuah template yang dirancang untuk membantu mahasiswa yang sedang mengambil mata kuliah Pemrograman Berbasis Platform (CSGE602022) mengetahui struktur sebuah proyek aplikasi Django serta file dan konfigurasi yang penting dalam berjalannya aplikasi. Kamu dapat dengan bebas menyalin isi dari repositori ini atau memanfaatkan repositori ini sebagai pembelajaran sekaligus awalan dalam membuat sebuah proyek Django.
 
