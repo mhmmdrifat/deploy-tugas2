@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Tugas 3 PBP/PBD</h1>
+
+<h3>Name: {{Nama}} </h3>
+
+<h3>Student ID: {{student_id}} </h3>
+<style>
+table, th, tr {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+
+<table>
+  <tr>
+  <th>Watched</th>
+  <th>Title</th>
+  <th>Rating</th>
+  <th>Release Date</th>
+  <th>Review</th>
+  </tr>
+  {% comment %} Add the data below this line {% endcomment %}
+  {% for list in list_watchlist %}
+  <tr>
+    <th>{{list.watched}}</th>
+    <th>{{list.title}}</th>
+    <th>{{list.rating}}</th>
+    <th>{{list.release_date}}</th>
+    <th>{{list.review}}</th>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock content %}
