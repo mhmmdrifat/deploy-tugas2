@@ -25,11 +25,9 @@ table, th, tr {
   {% comment %} Add the data below this line {% endcomment %}
   {% for list in list_watchlist %}
   <tr>
-    <th>{{list.watched}}</th>
     <th>{{list.title}}</th>
-    <th>{{list.rating}}</th>
-    <th>{{list.release_date}}</th>
-    <th>{{list.review}}</th>
+    <th>{{list.date}}</th>
+    <th>{{list.description}}</th>
   </tr>
   {% endfor %}
 </table>
