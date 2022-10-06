@@ -1,58 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<h1>Tugas 4 PBP/PBD</h1>
-
-<h3>Name: {{nama}} </h3>
-
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+/>
 <style>
-table, th, tr {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
+   .card {
+        border-radius: 1rem;
+    }
+    
+    .card{
+        transition: transform .5s;
+    }
 </style>
+<body>
+    <div class="container p-4 h-100">
+        <div class="title mb-4">
+            <h2>{{nama}}'s Task</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                {% for tasks in task_list %}
+                <div class="card text-dark mb-3 text-center shadow-lg">
+                  <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="card-body mb-4">
+                            <h4 class="card-title">{{tasks.title}}</h4>
+                            <p> Date : {{tasks.date}} </p>
+                            <p> {{tasks.description}} </p>
+                            {% if tasks.is_finished %}
+                                <h5>Finished</h5>
+                            {% else %}
+                                <h5>Not Finished</h5>
+                            {% endif %}
+                            <button class="btn btn-info">
+                                <a href="{% url 'todolist:update' tasks.id %}">Update</a>
+                            </button>
+                            <button class="btn btn-info">
+                                <a href="{% url 'todolist:delete' tasks.id %}">Delete</a>
+                            </button>
+                        </div>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="title mt-6">
+                <div>
+                    <button type="button" class="btn btn-light">
+                        <a href="{% url 'todolist:create_task' %}">New Task</a>
+                    </button>
+                    <button type="button" class="btn btn-light">
+                        <a href="{% url 'todolist:logout_user' %}">Logout</a>
+                    </button>
+                </div>
+                        <h5>Sesi terakhir login : {{ last_login }}</h5>
+                    </div>
+                  </div>
+                </div>
+</body>
 
-<table>
-  <tr>
-  <th>Status</th>
-  <th>Date</th>
-  <th>Title</th>
-  <th>Description</th>
-  </tr>
-  {% comment %} Add the data below this line {% endcomment %}
-  {% for task in task_list %}
-  <tr>
-  <th>
-    {% if task.is_finished %}
-      Selesai
-    {% else %}
-      Belum
-    {% endif %}
-  </th>
-  
-    <th>{{task.date}}</th>
-    <th>{{task.title}}</th>
-    <th>{{task.description}}</th>
-    <th>
-    <button>
-        <a href="{%url 'todolist:update' task.id %}">Update</a>
-    </button>
-    </th>
-
-    <th>
-      <button>
-        <a href="{%url 'todolist:delete' task.id %}">Delete</a>
-    </button>
-  </th>
-  </tr>
-  
-  {% endfor %}
-</table>
-<button>
-  <a href="{% url 'todolist:create_task' %}">Tambah Task </a>
-</button>
-<button>
-  <a href="{% url 'todolist:logout_user' %}">Logout</a>
-</button>
 {% endblock content %}

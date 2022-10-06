@@ -30,7 +30,7 @@ def create_task(request):
     form = TaskForm()
     if request.method == "POST":
         form = TaskForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             form = form.save(commit=False)
             form.user = request.user
             form.save()

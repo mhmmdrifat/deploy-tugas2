@@ -1,34 +1,59 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}{% block meta %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+/>
+<title>Create Task</title>
+{% endblock meta %} {% block content %}  
 
-{% block meta %}
-<title>Registrasi Task</title>
-{% endblock meta %}
 
-{% block content %}  
-
-<div class = "login">
+<section class=" text-center text-lg-start">
+    <style>
+      .rounded-t-5 {
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+      }
+  
+      @media (min-width: 992px) {
+        .rounded-tr-lg-0 {
+          border-top-right-radius: 0;
+        }
+  
+        .rounded-bl-lg-5 {
+          border-bottom-left-radius: 0.5rem;
+        }
+      }
+    </style>
+    <div class="container py-5 h-100">
+    <div class="card mb-3 py-0">
+      <div  class="d-flex flex-column align-items-center rounded-4 bg-light p-4 shadow-lg">
+        <div class="col-lg-5">
+          <div class="card-body py-0 px-0">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="id_title">Title</label>
+                    <input class="form-control" type="text" name="title" maxlength="150" required="" id="id_title">
+                    {% if form.title.errors %}
+                    <span class="text-danger">{{ form.title.errors }} </span>
+                    {% endif %}  
+                </div>
     
-    <h1>Formulir Registrasi</h1>  
-
-        <form method="POST" >  
-            {% csrf_token %}  
-            <table>  
-                {{ form.as_table }}  
-                <tr>  
-                    <td></td>
-                    <td><input type="submit" name="submit" value="Daftar"/></td>  
-                </tr>  
-            </table>  
-        </form>
-
-    {% if messages %}  
-        <ul>   
-            {% for message in messages %}  
-                <li>{{ message }}</li>  
-                {% endfor %}  
-        </ul>   
-    {% endif %}
-
-</div>  
-
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="id_description">Description</label>
+                    <textarea class="form-control" name="description" cols="40" rows="10" required=""  id="id_description"></textarea>
+                    {% if form.desc.errors %}
+                    <span class="text-danger">{{ form.desc.errors }} </span>
+                    {% endif %} 
+                </div>
+                <input type="submit" class="btn btn-primary btn-block mb-4" value="Daftar">  
+                <a href="{% url 'todolist:show_todolist' %}" class="btn btn-primary btn-block mb-4">Kembali</a>
+              
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+</section>
 {% endblock content %}
