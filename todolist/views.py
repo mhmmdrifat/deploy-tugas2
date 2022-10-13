@@ -13,14 +13,13 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from todolist.models import MyTask
+import json
 
 # Create your views here.
 
 @login_required(login_url='/todolist/login/')
 def show_todolist(request):
-    task_list = MyTask.objects.filter(user=request.user)
     context = {
-        'task_list': task_list,
         'nama': request.user.username,
         'last_login' : request.COOKIES['last_login'],
     }
@@ -88,3 +87,21 @@ def delete(request, id):
     task = task_list[0]
     task.delete()
     return redirect('todolist:show_todolist')
+
+@login_required(login_url='/todolist/login/')
+def show_json(request):
+    data = MyTask.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', data), content_type='application/json')
+
+@login_required(login_url='/todolist/login/')
+def add_task(request):
+    if request.method == 'POST':
+        inputTODO = MyTask(
+            user = request.user,
+            title = request.POST['title'],
+            description = request.POST['description']
+        )
+        inputTODO.save()
+        return HttpResponse(serializers.serialize('json', [inputTODO,]), content_type='application/json')
+
+    return HttpResponse('')

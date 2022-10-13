@@ -57,6 +57,138 @@
                     </div>
                   </div>
                 </div>
+                <!-- Button trigger  -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="" id="add_task">
+            {% csrf_token %}
+            
+        <div class="form-outline mb-4">
+            <label class="form-label" for="id_title">Title</label>
+            <input class="form-control" type="text" name="title" maxlength="150" required="" id="id_title">
+            {% if form.title.errors %}
+            <span class="text-danger">{{ form.title.errors }} </span>
+            {% endif %}  
+        </div>
+
+        <div class="form-outline mb-4">
+            <label class="form-label" for="id_description">Description</label>
+            <textarea class="form-control" name="description" cols="40" rows="10" required=""  id="id_description"></textarea>
+            {% if form.desc.errors %}
+            <span class="text-danger">{{ form.desc.errors }} </span>
+            {% endif %} 
+        </div>
+        <input type="submit" class="btn btn-primary btn-block mb-4" value="Daftar" id="daftar_btn">  
+        <a href="{% url 'todolist:show_todolist' %}" class="btn btn-primary btn-block mb-4">Kembali</a>
+      
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 
+
+<div class="container p-4 h-100"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" 
+  integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+  crossorigin="anonymous">
+</script>
+<script>
+    $(document).ready(() => {
+        create_cards()
+        $("#daftar_btn").click(add_task)
+      });
+
+    function create_cards(){
+    var container = document.getElementsByClassName("container p-4 h-100")[1]
+    container.innerHTML = ""
+
+    $.get("{% url 'todolist:show_json' %}", function (data) {
+    
+    data.forEach(element => {
+      var card = document.createElement("div")
+      card.className = "card text-dark mb-3 text-center shadow-lg"
+      console.log(data)
+      var cardContent = document.createElement("div")
+      cardContent.className = "row d-flex justify-content-center align-items-center h-100"
+      
+      var cardBody = document.createElement("div")
+      cardBody.className = "card-body mb-4"
+    
+      var fields = element.fields
+      var title = fields.title
+      var date = fields.date
+      var description = fields.description
+      var is_finished = fields.is_finished
+
+      var cardHeader = document.createElement("h2")
+      cardHeader.className = "card-title"
+      cardHeader.innerHTML = title + " (" + date + ")" 
+
+      var cardText = document.createElement("p")
+      cardText.className = "card-text"
+      cardText.innerHTML = description
+      
+      var cardStatus = document.createElement("h5")
+      cardStatus.className = "card-text"
+      cardStatus.innerHTML = (is_finished) ? 'Finished' : 'Not Finished' 
+
+      
+      var buttonUpdate = document.createElement("a")
+      buttonUpdate.href = "/todolist/update-task/" + element.pk
+      buttonUpdate.className = "btn btn-primary"
+      buttonUpdate.innerHTML = "Update"
+
+      var buttonHapus = document.createElement("a")
+      buttonHapus.href = "/todolist/detele-task"
+      buttonHapus.className = "btn btn-primary "
+      buttonHapus.innerHTML = "Delete"
+
+      cardBody.appendChild(cardHeader)
+      cardBody.appendChild(cardText)
+      cardBody.appendChild(cardStatus)
+      cardBody.appendChild(buttonUpdate)
+      cardBody.appendChild(buttonHapus)
+
+      cardContent.appendChild(cardBody)
+      card.appendChild(cardContent)
+      container.appendChild(card)
+
+      document.body.appendChild(container)
+      console.log()
+      
+      }); 
+    })
+}
+function add_task(e) {
+    e.preventDefault()
+     $.ajax({
+      type: 'POST',
+      url: '/todolist/add/',
+      data: $("#add_task").serialize(), 
+      success: () => {
+        $("#exampleModal").modal('hide')
+        create_cards()
+      },
+      dataType: 'json'
+    });
+  }
+</script>
 {% endblock content %}
